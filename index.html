@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunaSimi — Lunéa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       APP
+  ========================== -->
+
+  <div id="app">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div class="brand">
+        <div class="brand-icon">🐹</div>
+
+        <div>
+          <strong>RunaSimi</strong>
+          <span>Lunéa</span>
+        </div>
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <span>⭐</span>
+          <strong id="xpValue">0</strong>
+        </div>
+
+        <div class="stat">
+          <span>🔥</span>
+          <strong id="streakValue">0</strong>
+        </div>
+
+        <button
+          class="hearts-button"
+          id="heartsButton"
+          onclick="showHeartsInfo()"
+        >
+          ❤️❤️❤️❤️❤️
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- =========================
+         PANTALLA INICIO
+    ========================== -->
+
+    <main id="homeScreen" class="screen active">
+
+      <section class="welcome-card">
+
+        <div>
+          <p class="eyebrow">¡Sigue aprendiendo!</p>
+
+          <h1>
+            Aprende Quechua<br>
+            paso a paso.
+          </h1>
+
+          <p>
+            Avanza por las etapas y descubre nuevas palabras.
+          </p>
+        </div>
+
+        <div class="mascot-big">
+          🐹
+        </div>
+
+      </section>
+
+
+      <section class="unit-card">
+
+        <div class="unit-header">
+
+          <div>
+            <span class="unit-label">UNIDAD 1</span>
+            <h2>Primeros pasos</h2>
+            <p>Saludos y expresiones básicas</p>
+          </div>
+
+          <div class="unit-progress">
+            <strong id="unitProgressText">0%</strong>
+            <div class="progress-bar">
+              <div
+                id="unitProgressBar"
+                class="progress-fill"
+              ></div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div
+          id="learningPath"
+          class="learning-path"
+        ></div>
+
+      </section>
+
+      <section class="unit-card unit-two-card">
+        <div class="unit-header">
+          <div>
+            <span class="unit-label">UNIDAD 2</span>
+            <h2>Palabras en contexto</h2>
+            <p>Usa lo aprendido en situaciones y oraciones breves.</p>
+          </div>
+          <button class="secondary-button" onclick="openUnitTwo()">Empezar →</button>
+        </div>
+        <p class="unit-two-note">Esta unidad reutiliza el vocabulario de la Unidad 1 en ejercicios contextualizados, sin repetir siempre la misma pregunta.</p>
+      </section>
+
+    </main>
+
+
+    <!-- =========================
+         PANTALLA UNIDAD
+    ========================== -->
+
+    <main id="unitScreen" class="screen">
+
+      <button class="back-button" onclick="goHome()">
+        ← Volver
+      </button>
+
+      <div class="page-title">
+        <span class="unit-label">UNIDAD 1</span>
+        <h1>Primeros pasos</h1>
+        <p>Saludos y expresiones básicas</p>
+      </div>
+
+      <div id="stageList"></div>
+
+    </main>
+
+
+    <!-- =========================
+         APRENDE
+    ========================== -->
+
+    <main id="learnScreen" class="screen lesson-screen">
+
+      <div class="lesson-top">
+
+        <button
+          class="back-button"
+          onclick="leaveLesson()"
+        >
+          ✕
+        </button>
+
+        <div class="lesson-progress">
+          <div
+            id="learnProgress"
+            class="lesson-progress-fill"
+          ></div>
+        </div>
+
+        <div
+          id="learnHearts"
+          class="lesson-hearts"
+        >
+          ❤️❤️❤️❤️❤️
+        </div>
+
+      </div>
+
+
+      <div class="lesson-content">
+
+        <span class="lesson-label">
+          APRENDE
+        </span>
+
+        <h1>Descubre esta palabra</h1>
+
+        <p class="lesson-description">
+          Toca la tarjeta para descubrir su significado.
+        </p>
+
+
+        <button
+          id="wordCard"
+          class="word-card"
+          onclick="flipWordCard()"
+        >
+
+          <span
+            id="learnWord"
+            class="learn-word"
+          >
+            Rimaykullayki
+          </span>
+
+          <span
+            id="learnMeaning"
+            class="learn-meaning hidden"
+          >
+            Hola / saludo
+          </span>
+
+          <span
+            id="learnHint"
+            class="learn-hint"
+          >
+            Toca para descubrir
+          </span>
+
+        </button>
+
+
+        <button
+          id="nextLearnButton"
+          class="primary-button"
+          onclick="nextLearnWord()"
+        >
+          Continuar
+        </button>
+
+      </div>
+
+    </main>
+
+
+    <!-- =========================
+         PRACTICA
+    ========================== -->
+
+    <main id="lessonScreen" class="screen lesson-screen">
+
+      <div class="lesson-top">
+
+        <button
+          class="back-button"
+          onclick="leaveLesson()"
+        >
+          ✕
+        </button>
+
+        <div class="lesson-progress">
+          <div
+            id="practiceProgress"
+            class="lesson-progress-fill"
+          ></div>
+        </div>
+
+        <div
+          id="practiceHearts"
+          class="lesson-hearts"
+        >
+          ❤️❤️❤️❤️❤️
+        </div>
+
+      </div>
+
+
+      <div class="lesson-content">
+
+        <span class="lesson-label">
+          PRACTICA
+        </span>
+
+        <div
+          id="questionNumber"
+          class="question-number"
+        >
+          Pregunta 1 de 10
+        </div>
+
+        <div id="questionContainer"></div>
+
+        <div
+          id="answersContainer"
+          class="answers"
+        ></div>
+
+        <button
+          id="checkButton"
+          class="primary-button"
+          onclick="checkAnswer()"
+          disabled
+        >
+          Comprobar
+        </button>
+
+      </div>
+
+    </main>
+
+
+    <!-- =========================
+         RESULTADO
+    ========================== -->
+
+    <main id="resultScreen" class="screen">
+
+      <div class="result-card">
+
+        <span class="lesson-label">
+          RESULTADO
+        </span>
+
+        <h1 id="resultTitle">
+          ¡Lección terminada!
+        </h1>
+
+        <div
+          id="resultPercentage"
+          class="result-percentage"
+        >
+          0%
+        </div>
+
+        <p id="resultMessage">
+          ¡Sigue avanzando!
+        </p>
+
+
+        <div class="result-stats">
+
+          <div class="result-stat">
+            <span>✓</span>
+            <strong id="correctResult">0</strong>
+            <small>Correctas</small>
+          </div>
+
+          <div class="result-stat">
+            <span>✕</span>
+            <strong id="incorrectResult">0</strong>
+            <small>Incorrectas</small>
+          </div>
+
+          <div class="result-stat">
+            <span>⭐</span>
+            <strong id="xpResult">0</strong>
+            <small>XP ganados</small>
+          </div>
+
+        </div>
+
+
+        <div class="result-graph">
+
+          <div class="circle-score">
+            <svg viewBox="0 0 120 120">
+
+              <circle
+                class="circle-bg"
+                cx="60"
+                cy="60"
+                r="50"
+              ></circle>
+
+              <circle
+                id="scoreCircle"
+                class="circle-progress"
+                cx="60"
+                cy="60"
+                r="50"
+              ></circle>
+
+            </svg>
+
+            <span id="circleScoreText">
+              0%
+            </span>
+
+          </div>
+
+
+          <div class="horizontal-result">
+
+            <div class="horizontal-bar">
+              <div
+                id="resultBar"
+                class="horizontal-fill"
+              ></div>
+            </div>
+
+            <span>Progreso de la lección</span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="primary-button"
+          onclick="finishResult()"
+        >
+          Continuar
+        </button>
+
+      </div>
+
+    </main>
+
+
+    <!-- =========================
+         SIN VIDAS
+    ========================== -->
+
+    <div
+      id="noLivesOverlay"
+      class="overlay hidden"
+    >
+
+      <div class="modal no-lives-modal">
+
+        <div class="modal-icon">
+          💔
+        </div>
+
+        <h2>¡Te quedaste sin vidas!</h2>
+
+        <p>
+          No te preocupes. Puedes volver a practicar
+          cuando tus vidas se regeneren.
+        </p>
+
+        <div class="timer-box">
+
+          <span>Podrás continuar en</span>
+
+          <strong id="lifeTimer">
+            20:00
+          </strong>
+
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="closeNoLives()"
+        >
+          Entendido
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         RANKING
+    ========================== -->
+
+    <main id="rankingScreen" class="screen">
+
+      <div class="page-title">
+
+        <span class="unit-label">
+          COMPETENCIA
+        </span>
+
+        <h1>Ranking</h1>
+
+        <p>
+          Mira tu progreso de esta semana.
+        </p>
+
+      </div>
+
+
+      <div class="ranking-card">
+
+        <div class="ranking-position">
+          <span>🏆</span>
+          <strong>Tu posición</strong>
+          <b>—</b>
+        </div>
+
+        <div class="ranking-empty">
+          <div>🌱</div>
+          <h3>Próximamente</h3>
+          <p>
+            El ranking estará disponible cuando
+            haya más estudiantes.
+          </p>
+        </div>
+
+      </div>
+
+    </main>
+
+
+    <!-- =========================
+         RECURSOS
+    ========================== -->
+
+    <main id="resourcesScreen" class="screen">
+
+      <div class="page-title">
+
+        <span class="unit-label">
+          RECURSOS
+        </span>
+
+        <h1>Tu diccionario</h1>
+
+        <p>
+          Aquí aparecen las palabras que has descubierto.
+        </p>
+
+      </div>
+
+
+      <div class="search-box">
+
+        <span>⌕</span>
+
+        <input
+          id="dictionarySearch"
+          type="text"
+          placeholder="Buscar una palabra..."
+          oninput="renderDictionary()"
+        >
+
+      </div>
+
+
+      <div
+        id="dictionaryList"
+        class="dictionary-list"
+      ></div>
+
+    </main>
+
+
+    <!-- =========================
+         CUENTA
+    ========================== -->
+
+    <main id="accountScreen" class="screen">
+
+      <div class="profile-card">
+
+        <button
+          class="profile-avatar"
+          onclick="openProfileModal()"
+          id="profileAvatar"
+        >
+          🌸
+        </button>
+
+        <h1 id="profileName">
+          Estudiante
+        </h1>
+
+        <p>
+          Aprendiendo Quechua con RunaSimi
+        </p>
+
+        <button
+          class="secondary-button"
+          onclick="openProfileModal()"
+        >
+          Editar perfil
+        </button>
+
+      </div>
+
+
+      <div class="account-options">
+
+        <button onclick="showSettings()">
+          ⚙️ Configuración
+          <span>›</span>
+        </button>
+
+        <button onclick="showScreen('aboutScreen')">
+          ℹ️ Acerca de nosotros
+          <span>›</span>
+        </button>
+
+        <button onclick="showScreen('reportScreen')">
+          🐞 Reportar un error
+          <span>›</span>
+        </button>
+
+        <button onclick="showScreen('donationScreen')">
+          💜 Apoyar a Lunéa por Yape
+          <span>›</span>
+        </button>
+
+        <button onclick="resetProgress()">
+          🔄 Reiniciar progreso
+          <span>›</span>
+        </button>
+
+      </div>
+
+    </main>
+
+
+    <!-- =========================
+         CONFIGURACION
+    ========================== -->
+
+    <main id="settingsScreen" class="screen">
+
+      <button
+        class="back-button"
+        onclick="showScreen('accountScreen')"
+      >
+        ← Volver
+      </button>
+
+      <div class="page-title">
+
+        <span class="unit-label">
+          CUENTA
+        </span>
+
+        <h1>Configuración</h1>
+
+      </div>
+
+
+      <div class="settings-card">
+
+        <h3>Tema</h3>
+
+        <div class="theme-buttons">
+
+          <button
+            onclick="setTheme('light')"
+          >
+            ☀️ Claro
+          </button>
+
+          <button
+            onclick="setTheme('dark')"
+          >
+            🌙 Oscuro
+          </button>
+
+          <button
+            onclick="setTheme('blue')"
+          >
+            💙 Celeste
+          </button>
+
+        </div>
+
+      </div>
+
+    </main>
+
+
+    <!-- ACERCA DE NOSOTROS -->
+    <main id="aboutScreen" class="screen">
+      <button class="back-button" onclick="showScreen('accountScreen')">← Volver</button>
+      <div class="page-title">
+        <span class="unit-label">EL EQUIPO</span>
+        <h1>Acerca de nosotros</h1>
+        <p>Conoce a quienes crean RunaSimi.</p>
+      </div>
+      <section class="info-card">
+        <div class="info-icon">🐹</div>
+        <h2>Lunéa</h2>
+        <p>Somos el grupo creador de RunaSimi, una propuesta para aprender quechua paso a paso mediante actividades cortas, vocabulario y práctica.</p>
+        <h3>Nuestro objetivo</h3>
+        <p>Acercar el aprendizaje del quechua de forma clara y accesible, respetando la diversidad de sus variedades.</p>
+        <p class="small-note">Edita este texto en index.html para añadir los nombres del equipo, su historia y sus redes oficiales.</p>
+      </section>
+    </main>
+
+    <!-- REPORTAR ERROR -->
+    <main id="reportScreen" class="screen">
+      <button class="back-button" onclick="showScreen('accountScreen')">← Volver</button>
+      <div class="page-title">
+        <span class="unit-label">AYUDA</span>
+        <h1>Reportar un error</h1>
+        <p>Cuéntanos qué ocurrió para que podamos revisar la app.</p>
+      </div>
+      <form class="info-card report-form" onsubmit="submitBugReport(event)">
+        <label for="bugType">Tipo de problema</label>
+        <select id="bugType" required>
+          <option value="">Selecciona una opción</option>
+          <option>Error en una respuesta</option>
+          <option>Problema técnico</option>
+          <option>Traducción por revisar</option>
+          <option>Sugerencia</option>
+          <option>Otro</option>
+        </select>
+        <label for="bugDetails">Descripción</label>
+        <textarea id="bugDetails" rows="5" required maxlength="1500" placeholder="¿Qué pasó? ¿En qué lección?"></textarea>
+        <label for="bugContact">Correo para responder (opcional)</label>
+        <input id="bugContact" type="email" placeholder="tucorreo@ejemplo.com">
+        <button class="primary-button" type="submit">Preparar reporte</button>
+        <p class="small-note">Se abrirá tu aplicación de correo con el reporte preparado. No se envía automáticamente.</p>
+      </form>
+    </main>
+
+    <!-- APOYAR A LUNÉA -->
+    <main id="donationScreen" class="screen">
+      <button class="back-button" onclick="showScreen('accountScreen')">← Volver</button>
+      <div class="page-title">
+        <span class="unit-label">APOYO</span>
+        <h1>Apoya a Lunéa</h1>
+        <p>Si te gusta RunaSimi, puedes apoyar el proyecto de manera voluntaria.</p>
+      </div>
+      <section class="info-card donation-card">
+        <div class="info-icon">💜</div>
+        <h2>Donaciones por Yape</h2>
+        <p>Tu apoyo nos ayuda a seguir mejorando los recursos de aprendizaje.</p>
+        <div class="yape-placeholder">
+          <strong>Número de Yape</strong>
+          <span id="yapeNumber">Añadir número oficial de Lunéa</span>
+        </div>
+        <p class="small-note">Antes de publicar la app, reemplaza este texto en index.html por el número o QR oficial. No se ha inventado ningún número.</p>
+      </section>
+    </main>
+
+
+    <!-- =========================
+         MODAL PERFIL
+    ========================== -->
+
+    <div
+      id="profileModal"
+      class="overlay hidden"
+    >
+
+      <div class="modal">
+
+        <button
+          class="modal-close"
+          onclick="closeProfileModal()"
+        >
+          ✕
+        </button>
+
+        <h2>Editar perfil</h2>
+
+        <input
+          id="profileNameInput"
+          class="text-input"
+          type="text"
+          maxlength="20"
+          placeholder="Tu nombre"
+        >
+
+        <div class="emoji-picker">
+
+          <button onclick="selectProfileEmoji('🌸')">🌸</button>
+          <button onclick="selectProfileEmoji('🌼')">🌼</button>
+          <button onclick="selectProfileEmoji('🐹')">🐹</button>
+          <button onclick="selectProfileEmoji('🌱')">🌱</button>
+          <button onclick="selectProfileEmoji('⭐')">⭐</button>
+
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="saveProfile()"
+        >
+          Guardar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="bottom-nav">
+
+      <button
+        class="nav-item active"
+        data-screen="homeScreen"
+        onclick="showScreen('homeScreen')"
+      >
+        <span>🏠</span>
+        <small>Inicio</small>
+      </button>
+
+      <button
+        class="nav-item"
+        data-screen="rankingScreen"
+        onclick="showScreen('rankingScreen')"
+      >
+        <span>🏆</span>
+        <small>Ranking</small>
+      </button>
+
+      <button
+        class="nav-item"
+        data-screen="resourcesScreen"
+        onclick="showScreen('resourcesScreen')"
+      >
+        <span>📚</span>
+        <small>Recursos</small>
+      </button>
+
+      <button
+        class="nav-item"
+        data-screen="accountScreen"
+        onclick="showScreen('accountScreen')"
+      >
+        <span>👤</span>
+        <small>Cuenta</small>
+      </button>
+
+    </nav>
+
+  </div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
